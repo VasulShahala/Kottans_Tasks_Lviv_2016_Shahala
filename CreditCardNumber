@@ -1,260 +1,250 @@
 using System;
-using System.IO;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-
-namespace Kottans_LT_216
+namespace KottansTask
 {
-	class MainClass
-	{
-		public string iin="";
 
-		public string billnumber="";
-		public string validstr;
-		public string genstr;
-		public bool a=false;
-		public  void GetCreditCardVendor (string str ){
-			
-			if( (Convert.ToInt32 (str.Substring (0, 1)) == 4)& ((str.Length<=19)& (str.Length>=13)) ){
+    class MainClass
+    {
+        
+        
+        public static string GetCreditCardVendor(string str)
+        {
 
-				a = true;
-				Console.WriteLine( "VISA");
+            if ((Convert.ToInt32(str.Substring(0, 1)) == 4) & ((str.Length <= 19) & (str.Length >= 13)))
+            {
 
-			}
+               
+                return "VISA";
+                
 
-			if( (Convert.ToInt32 (str.Remove (2, str.Length-2)) >= 51)& (str.Length==16) &(Convert.ToInt32 (str.Remove (2, str.Length-2)) <= 55)){
+            }
 
-				a = true;
-				Console.WriteLine( "MASTER CARD");
-			}
+            if ((Convert.ToInt32(str.Remove(2, str.Length - 2)) >= 51) & (str.Length == 16) & (Convert.ToInt32(str.Remove(2, str.Length - 2)) <= 55))
+            {
 
+                return "MASTER CARD";
+            }
 
 
-			if( (Convert.ToInt32 (str.Remove (4, str.Length-4)) >= 3528)& (str.Length==16) &(Convert.ToInt32 (str.Remove (4, str.Length-4)) <= 3589)){
 
-				a = true;
-				Console.WriteLine( "JCB");
-			}
+            if ((Convert.ToInt32(str.Remove(4, str.Length - 4)) >= 3528) & (str.Length == 16) & (Convert.ToInt32(str.Remove(4, str.Length - 4)) <= 3589))
+            {
 
+                return "JCB";
+            }
 
 
-			if(( (Convert.ToInt32 (str.Remove (2, str.Length-2)) == 34) ||   (Convert.ToInt32 (str.Remove (2, str.Length-2)) == 37)  )& (str.Length==15) ){
 
-				a = true;
-				Console.WriteLine( "AMERICAN EXPRESS");
-			}
+            if (((Convert.ToInt32(str.Remove(2, str.Length - 2)) == 34) || (Convert.ToInt32(str.Remove(2, str.Length - 2)) == 37)) & (str.Length == 15))
+            {
 
+                return"AMERICAN EXPRESS";
+            }
 
 
 
-			if( ((str.Length<19)& (str.Length>13))&
 
-			(	  (Convert.ToInt32 (str.Remove (2, str.Length-2)) ==50 )|| 
+            if (((str.Length < 19) & (str.Length > 13)) &
 
-					(Convert.ToInt32 (str.Remove (2, str.Length-2)) == 67)||
-				(Convert.ToInt32 (str.Remove (4, str.Length-4)) == 6390) ||
+            ((Convert.ToInt32(str.Remove(2, str.Length - 2)) == 50) ||
 
-					(	(Convert.ToInt32 (str.Remove (2, str.Length-2)) >= 56)&
-						(Convert.ToInt32 (str.Remove (2, str.Length-2)) <= 58)
-					)
-			
-				)){
+                    (Convert.ToInt32(str.Remove(2, str.Length - 2)) == 67) ||
+                (Convert.ToInt32(str.Remove(4, str.Length - 4)) == 6390) ||
 
-				a = true;
-				Console.WriteLine( "MAESTRO");
-			}
+                    ((Convert.ToInt32(str.Remove(2, str.Length - 2)) >= 56) &
+                        (Convert.ToInt32(str.Remove(2, str.Length - 2)) <= 58)
+                    )
 
+                ))
+            {
 
-			if (a==false)
-			{
-				
-				Console.WriteLine ("UNKNOWN");	
-			}
+                return "MAESTRO";
+            }
 
-		}
 
+           else 
+            {
+                return "UNKNOWN";
+            }
 
+        }
 
-		public void IsCreditCardNumberValid (int [] cardnumber){
-		
-			int sum=0;
-			int sum2 = 0;
-			int temp;
-			int total = 0;
 
-			cardnumber.Reverse ();
 
-			for (int i = 0; i <cardnumber.Length; i++) {
-				if (i % 2 != 0) {
-					sum = sum + cardnumber [i];	}
-					if (i%2==0){
-					temp = cardnumber [i] * 2;
-					if (temp >= 10) {
-                     temp = temp - 9;} 
-					else {
-						temp = temp;}
-					sum2 = sum2 + temp;		}    }
-			total = total + sum + sum2;
-			if (total % 10 == 0) {
-				
-				Console.WriteLine ("Your card number is correct");   }
-					else{
-				Console.WriteLine ("Your card number isn't correct");		} 	}
+        public static bool IsCreditCardNumberValid(string str)
+        {
 
+            int sum = 0;
+            int sum2 = 0;
+            int temp;
+            int total = 0;
+            int[] cardnumber = new int[str.Length];
+            for (int i = 0; i < str.Length; i++)
+            {
+                cardnumber[i] = int.Parse(str[i].ToString());
+            }
+            cardnumber.Reverse();
 
+            for (int i = 0; i < cardnumber.Length; i++)
+            {
+                if (i % 2 != 0)
+                {
+                    sum = sum + cardnumber[i];
+                }
+                if (i % 2 == 0)
+                {
+                    temp = cardnumber[i] * 2;
+                    if (temp >= 10)
+                    {
+                        temp = temp - 9;
+                    }
+                    else
+                    {
+                        temp = temp;
+                    }
+                    sum2 = sum2 + temp;
+                }
+            }
+            total = total + sum + sum2;
+            if (total % 10 == 0)
+            {
+                return true;
+               
+            }
+            else
+            {
+                return false;
+            }
+        }
 
 
-		public void GenerateNextCreditCardNumber (int [] strtcardnumber){
 
-			int sum = 0;
-			int sum2 = 0;
-			int temp;
-			int total = 0;
-			bool validtest = false; 
 
+        public static string GenerateNextCreditCardNumber(string str)
+        {
+            int sum = 0;
+            int sum2 = 0;
+            int temp;
+            int total = 0;
+            string iin = "";
+            string billnumber = "";
+             string validstr;
+           string genstr;
 
+        int[] strtcardnumber = new int[str.Length];
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                strtcardnumber[i] = int.Parse(str[i].ToString());
+            }
+            strtcardnumber.Reverse();
 
+            for (int j = 6; j < strtcardnumber.Length - 1; j++)
+            {
+                string bstr;
+                bstr = strtcardnumber[j].ToString();
+                billnumber = billnumber + bstr;
+            }
+         {
 
-				strtcardnumber.Reverse ();
+                long count;
+                count = Convert.ToInt64(billnumber) + 1;
+                billnumber = count.ToString();
 
-			for (int j = 6; j < strtcardnumber.Length-1; j++) {
-				string bstr;
-				bstr = strtcardnumber [j].ToString ();
-				billnumber = billnumber+bstr;
-			}
-		lbl:		{  
+            }
 
-				long count;
-				count = Convert.ToInt64 (billnumber) + 1;
-				billnumber =count.ToString(); 
 
-			}
 
 
 
+            for (int j = 0; j < 6; j++)
+            {
+                string tempstr;
+                tempstr = strtcardnumber[j].ToString();
+                iin = iin + tempstr;
+            }
 
 
-			for (int j = 0; j < 6; j++) {
-				string tempstr;
-				tempstr=	strtcardnumber [j].ToString (); 
-				iin = iin + tempstr;}
-		
+            validstr = iin + billnumber;
 
-			    
-			/****
-			Calculate control number 
-			 * ****/
-			validstr = iin+billnumber ;
+            int[] temparr = new int[validstr.Length];
+            for (int i = 0; i < validstr.Length; i++)
+            {
+                temparr[i] = int.Parse(validstr[i].ToString());
+            }
+            for (int i = 1; i < temparr.Length; i++)
+            {
+                if (i % 2 != 0)
+                {
+                    sum = sum + temparr[i];
+                }
+                if (i % 2 == 0)
+                {
+                    temp = temparr[i] * 2;
+                    if (temp >= 10)
+                    {
+                        temp = temp - 9;
+                    }
+                    else
+                    {
+                        temp = temp;
+                    }
+                    sum2 = sum2 + temp;
+                }
+            }
+            total = total + sum + sum2;
 
-			 	int[] temparr = new int[validstr.Length];
-	for( int i=0; i< validstr.Length; i++){
-				temparr[i] = int.Parse(validstr[i].ToString());	}
-			   for (int i = 1; i < temparr.Length; i++) {
-					if (i % 2 != 0) {
-					sum = sum + temparr [i];	}
-				    	if (i % 2 == 0) {
-					temp = temparr [i] * 2;
-						if (temp >= 10) {
-							temp = temp - 9;}
-					else {
-							temp = temp;}
-						sum2 = sum2 + temp;	}   }
-				total = total + sum + sum2;
+            
 
-			//Console.WriteLine (validstr);
 
-		
 
-			genstr = validstr + ((10 - total % 10)-1).ToString();
+            genstr = validstr + ((10 - total % 10) - 1).ToString();
 
 
-			Console.WriteLine("Genereted number= "+genstr);
+            return "Genereted number= " + genstr.ToString();
 
-			/**
-			 
-			 Transform string to int array 
-			 * */
-		
-			int[] arr = new int[genstr.Length];
-			for( int i=0; i< genstr.Length; i++){
-				arr[i] = int.Parse(genstr[i].ToString());  }
+          
 
-			/*
-           Check correctly number credit card
-			 * */
 
-	
+        }
 
-				arr.Reverse ();
 
-				for (int i = 0; i <arr.Length; i++) {
-					if (i % 2 != 0) {
-						sum = sum + arr [i];	}
-					if (i%2==0){
-						temp = arr [i] * 2;
-						if (temp >= 10) {
-							temp = temp - 9;} 
-						else {
-							temp = temp;}
-						sum2 = sum2 + temp;		}    }
-				total = total + sum + sum2;
 
 
+        public static void Main(string[] args)
+        {
+            Console.WriteLine("Enter number of credit card");
+            string str;
+            string result;
+            bool iscorect;
+             string newnumber;
+            str = Console.ReadLine();
+            Console.WriteLine("You entered the following credit card " + str);
+            str = str.Replace(" ", "");
+            str = str.Replace("-", "");
+            Console.WriteLine();
+            Console.Write("Your credit card vendor is ");
 
-				if (total % 10 == 0) {
-					
-					Console.WriteLine ("Card number is correct"); 
-					validtest = true;
+            result = GetCreditCardVendor(str);
+            Console.WriteLine(GetCreditCardVendor(str));
+          
+            Console.ReadLine();
 
+            iscorect = IsCreditCardNumberValid(str);
+            Console.WriteLine(IsCreditCardNumberValid(str));
+            Console.ReadLine();
 
-				}
-				else{
-				goto lbl;
-			
-			} 
-			
 
-			while  (validtest==true);
+            Console.WriteLine("Next card number");
+              newnumber = GenerateNextCreditCardNumber(str);
+              Console.WriteLine(GenerateNextCreditCardNumber(str));
+            Console.ReadLine();
+        }
 
-
-
-		}
-
-
-
-
-		public static void Main (string[] args)
-		{
-			Console.WriteLine ("Enter number of credit card");
-			string str;
-			str=Console.ReadLine ();
-			Console.WriteLine ("You entered the following credit card "+str);
-			str=str.Replace(" ","");
-			str=str.Replace("-","");
-			Console.WriteLine ();
-			Console.Write ("Your credit card vendor is ");
-			MainClass obj1 = new MainClass ();
-			obj1.GetCreditCardVendor(str);
-			Console.ReadLine();
-
-			int[] ar = new int[str.Length];
-			for( int i=0; i< str.Length; i++){
-			ar[i] = int.Parse(str[i].ToString());
-			}
-			obj1.IsCreditCardNumberValid(ar);
-			Console.ReadLine ();
-
-
-			Console.WriteLine ("Next card number");
-
-			obj1.GenerateNextCreditCardNumber (ar);
-
-			Console.ReadLine ();
-		}
-
-
-	
-	}
+    }
 }
+

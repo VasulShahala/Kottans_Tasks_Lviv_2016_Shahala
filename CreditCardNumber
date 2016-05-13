@@ -215,7 +215,7 @@ namespace KottansTask
 
 
 
-            genstr = validstr + ((10 - total % 10) - 1).ToString();
+            genstr = validstr + ((10 - total % 10) ).ToString();
 
 
             return "Genereted number= " + genstr.ToString();

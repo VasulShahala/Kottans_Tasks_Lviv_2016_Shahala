@@ -9,46 +9,45 @@ namespace KottansTask
 
     class MainClass
     {
-        
+       
         
         public static string GetCreditCardVendor(string str)
         {
 
-            if ((Convert.ToInt32(str.Substring(0, 1)) == 4) & ((str.Length <= 19) & (str.Length >= 13)))
-            {
-
-               
-                return "VISA";
+           
+            if ((Convert.ToInt32(str.Substring(0, 1)) == 4) &  ((str.Length == 19) || (str.Length == 13)|| (str.Length == 16)))
+            
                 
-
-            }
+                return  "VISA";
+             
+            
 
             if ((Convert.ToInt32(str.Remove(2, str.Length - 2)) >= 51) & (str.Length == 16) & (Convert.ToInt32(str.Remove(2, str.Length - 2)) <= 55))
-            {
+            
 
                 return "MASTER CARD";
-            }
+            
 
 
 
             if ((Convert.ToInt32(str.Remove(4, str.Length - 4)) >= 3528) & (str.Length == 16) & (Convert.ToInt32(str.Remove(4, str.Length - 4)) <= 3589))
-            {
+            
 
                 return "JCB";
-            }
+            
 
 
 
             if (((Convert.ToInt32(str.Remove(2, str.Length - 2)) == 34) || (Convert.ToInt32(str.Remove(2, str.Length - 2)) == 37)) & (str.Length == 15))
-            {
+            
 
                 return"AMERICAN EXPRESS";
-            }
+            
 
 
 
 
-            if (((str.Length < 19) & (str.Length > 13)) &
+            if (((str.Length == 19) || (str.Length == 13) || (str.Length == 16)) &
 
             ((Convert.ToInt32(str.Remove(2, str.Length - 2)) == 50) ||
 
@@ -60,16 +59,16 @@ namespace KottansTask
                     )
 
                 ))
-            {
+            
 
                 return "MAESTRO";
-            }
+            
 
 
            else 
-            {
+            
                 return "UNKNOWN";
-            }
+            
 
         }
 
@@ -81,44 +80,45 @@ namespace KottansTask
             int sum = 0;
             int sum2 = 0;
             int temp;
-            int total = 0;
+            int total ;
+           // str.Reverse();
             int[] cardnumber = new int[str.Length];
             for (int i = 0; i < str.Length; i++)
             {
                 cardnumber[i] = int.Parse(str[i].ToString());
             }
-            cardnumber.Reverse();
+            
 
-            for (int i = 0; i < cardnumber.Length; i++)
+            for (int i = str.Length-1 ; i > -1; i--)
             {
                 if (i % 2 != 0)
                 {
-                    sum = sum + cardnumber[i];
+                   sum += cardnumber[i]; 
                 }
+
                 if (i % 2 == 0)
                 {
-                    temp = cardnumber[i] * 2;
-                    if (temp >= 10)
+                    
+                 temp = cardnumber[i] * 2;
+                    if (temp >=10)
                     {
                         temp = temp - 9;
                     }
-                    else
-                    {
-                        temp = temp;
-                    }
-                    sum2 = sum2 + temp;
+                    
+                    sum2 += temp;
                 }
             }
-            total = total + sum + sum2;
+    total =  sum + sum2;
+           
             if (total % 10 == 0)
-            {
+            
                 return true;
                
-            }
+            
             else
-            {
+            
                 return false;
-            }
+            
         }
 
 
@@ -129,7 +129,7 @@ namespace KottansTask
             int sum = 0;
             int sum2 = 0;
             int temp;
-            int total = 0;
+            int total ;
             string iin = "";
             string billnumber = "";
              string validstr;
@@ -196,7 +196,7 @@ namespace KottansTask
                     sum2 = sum2 + temp;
                 }
             }
-            total = total + sum + sum2;
+            total = sum + sum2;
 
             
 
@@ -219,9 +219,7 @@ namespace KottansTask
         {
             Console.WriteLine("Enter number of credit card");
             string str;
-            string result;
-            bool iscorect;
-             string newnumber;
+          
             str = Console.ReadLine();
             Console.WriteLine("You entered the following credit card " + str);
             str = str.Replace(" ", "");
@@ -229,20 +227,16 @@ namespace KottansTask
             Console.WriteLine();
             Console.Write("Your credit card vendor is ");
 
-            result = GetCreditCardVendor(str);
             Console.WriteLine(GetCreditCardVendor(str));
-          
             Console.ReadLine();
-
-            iscorect = IsCreditCardNumberValid(str);
+            
             Console.WriteLine(IsCreditCardNumberValid(str));
             Console.ReadLine();
 
-
-            Console.WriteLine("Next card number");
-              newnumber = GenerateNextCreditCardNumber(str);
-              Console.WriteLine(GenerateNextCreditCardNumber(str));
+            
+            Console.WriteLine(GenerateNextCreditCardNumber(str));
             Console.ReadLine();
+            
         }
 
     }

@@ -76,49 +76,62 @@ namespace KottansTask
 
         public static bool IsCreditCardNumberValid(string str)
         {
+            /*
+                        int sum = 0;
+                        int sum2 = 0;
+                        int temp;
+                        int total ;
+                       // str.Reverse();
+                        int[] cardnumber = new int[str.Length];
+                        for (int i = 0; i < str.Length; i++)
+                        {
+                            cardnumber[i] = int.Parse(str[i].ToString());
+                        }
 
-            int sum = 0;
-            int sum2 = 0;
-            int temp;
-            int total ;
-           // str.Reverse();
-            int[] cardnumber = new int[str.Length];
-            for (int i = 0; i < str.Length; i++)
-            {
-                cardnumber[i] = int.Parse(str[i].ToString());
-            }
-            
 
-            for (int i = str.Length-1 ; i > -1; i--)
-            {
-                if (i % 2 != 0)
-                {
-                   sum += cardnumber[i]; 
-                }
+                        for (int i = str.Length-1 ; i > -1; i--)
+                        {
+                            if (i % 2 != 0)
+                            {
+                               sum += cardnumber[i]; 
+                            }
 
-                if (i % 2 == 0)
-                {
-                    
-                 temp = cardnumber[i] * 2;
-                    if (temp >=10)
-                    {
-                        temp = temp - 9;
-                    }
-                    
-                    sum2 += temp;
-                }
-            }
-    total =  sum + sum2;
-           
-            if (total % 10 == 0)
-            
-                return true;
-               
-            
-            else
-            
-                return false;
-            
+                            if (i % 2 == 0)
+                            {
+
+                             temp = cardnumber[i] * 2;
+                                if (temp >=10)
+                                {
+                                    temp = temp - 9;
+                                }
+
+                                sum2 += temp;
+                            }
+                        }
+                total =  sum + sum2;
+
+                        if (total % 10 == 0)
+
+                            return true;
+
+
+                        else
+
+                            return false;*/
+
+
+
+            int sumOfDigits = str
+                    .Where((e) => e >= '0' && e <= '9')
+                    .Reverse()
+                    .Select((e, i) => ((int)e - 48) * (i % 2 == 0 ? 1 : 2))
+                    .Sum((e) => e / 10 + e % 10);
+
+
+            return sumOfDigits % 10 == 0;
+
+
+
         }
 
 
